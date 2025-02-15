@@ -1,4 +1,4 @@
-const express = require("express");
+.htconst express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -15,7 +15,7 @@ const PORT = 4000;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static("public")); // Serve static files
+app.use(express.static("index.html")); // Serve static files
 
 let cart = [];
 const productList = {
@@ -36,7 +36,7 @@ function broadcastCartUpdate() {
 
 // **Serve the main HTML file**
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.sendFile(path.join(__dirname,"index.html"));
 });
 
 // **Add item to cart when scanned**
