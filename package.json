@@ -1,0 +1,20 @@
+{
+  "name": "smart-trolley",
+  "version": "1.0.0",
+  "description": "Smart Trolley System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
+    "razorpay": "^2.9.5",
+    "ws": "^8.18.0"
+  }
+}

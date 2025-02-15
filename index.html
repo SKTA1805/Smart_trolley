@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Trolley System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen">
+        <img id="logo" src="images/hitam-logo.png" alt="HITAM Logo" />
+        <header>
+            <h1>Smart Trolley System</h1>
+            <p>Welcome to the future of shopping!</p>
+        </header>
+        <main>
+            <button id="add-to-cart-btn">Add To Cart</button>
+        </main>
+        <footer>&copy; 2025 Smart Trolley</footer>
+    </div>
+    
+    <!-- Billing Section -->
+    <div id="billing-section" style="display: none;">
+        <header>
+            <h1>Your Bill</h1>
+        </header>
+        <main>
+            <div class="bill-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items">
+                        <!-- Cart items will be dynamically inserted here -->
+                    </tbody>
+                </table>
+                <div class="summary">
+                    <p>Total Quantity: <span id="total-quantity">0</span></p>
+                    <p>Total Amount: <span id="total-amount">0.00 Rs</span></p>
+                </div>
+                <div class="button-group">
+                    <button onclick="generateBill()">Generate Bill</button>
+                    <button id="pay-now">Pay Now</button>
+                    <button onclick="goBackToWelcome()">Back to Home</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("add-to-cart-btn").addEventListener("click", function () {
+            document.getElementById("welcome-screen").style.display = "none";
+            document.getElementById("billing-section").style.display = "block";
+        });
+
+        function goBackToWelcome() {
+            document.getElementById("billing-section").style.display = "none";
+            document.getElementById("welcome-screen").style.display = "block";
+        }
+
+        document.getElementById("pay-now").addEventListener("click", function() {
+            var totalAmount = parseFloat(document.getElementById("total-amount").innerText);
+            var options = {
+                "key": "YOUR_RAZORPAY_KEY_ID",
+                "amount": totalAmount * 100, // Convert to paise
+                "currency": "INR",
+                "name": "Smart Trolley Billing",
+                "description": "Payment for Shopping",
+                "handler": function (response) {
+                    alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                    window.location.href = "update_payment.php?payment_id=" + response.razorpay_payment_id;
+                },
+                "prefill": {
+                    "name": "Customer",
+                    "email": "customer@example.com",
+                    "contact": "9999999999"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        });
+    </script>
+</body>
+</html>
